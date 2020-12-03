@@ -1,0 +1,26 @@
+:root {
+    --Black: rgb(32, 32, 32);
+    --White: rgb(255,255,255);
+    --Blue: rgb(2, 18, 243);
+    --Sky: rgb(27, 221, 247);
+    --Pink: rgb(233, 50, 111);
+    --Smoke: rgb(236, 234, 234);
+    --Gray: rgb(194, 192, 192);
+    --Lime: rgb(113, 238, 113);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+body {
+    background-color: var(--Smoke);
+    
+}
+
+h4, h5, h6, p {
+    font-weight: 200;
+}
