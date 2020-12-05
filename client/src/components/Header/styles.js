@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/core';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     header: {
         position:'fixed',
-        width:'100vw',
+        width:'100%',
         top:0,
         left:0,
         zIndex:100,
@@ -11,9 +11,9 @@ export default makeStyles(() => ({
         borderBottom: '0.5px solid var(--Gray)',
     },
     headerWrapper: {
-        maxWidth: '1280px',
+        maxWidth: '100vw',
         margin: '0 auto',
-        padding: '15px 0 10px 0 ',
+        padding: '15px 10% 10px 10% ',
         fontFamily: 'Lato',
         display: 'flex',
         flexDirection: 'row',
@@ -28,9 +28,10 @@ export default makeStyles(() => ({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        textDecoration: 'none',
     },
     logo: {
-        margin: '0 20px',
+        margin: '0 20px 0 0',
     },
     brand: {
         fontFamily: ['Satisfy','cursive'],
@@ -43,6 +44,10 @@ export default makeStyles(() => ({
         fontSize: '1.1rem',
         fontWeight: '300',
         margin: '0 20px',
+        color: 'var(--DarkGray)',
+        [theme.breakpoints.down('md')]: {
+            display: 'none',
+        },
     },
     userIcons: {
         display: 'flex',
@@ -56,11 +61,6 @@ export default makeStyles(() => ({
         marginLeft: '10px',
     },
     formWrapper: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
         backgroundColor: 'rgba(255,255,255,.3)',
         display: 'flex',
         justifyContent: 'center',

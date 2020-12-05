@@ -2,11 +2,17 @@ import { makeStyles } from '@material-ui/core';
 
 
 export default makeStyles(() => ({
+    loading: {
+        position: 'absolute',
+        marginTop: '40vh',
+        left: '48%', 
+    },
     postsWrapper: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))',
         gridColumnGap: '3px',
         margin: '0 auto',
+        width: '100%',
     },
     formWrapper: {
         position: 'fixed',

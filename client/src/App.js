@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grow, Grid } from '@material-ui/core';
+import { Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
-import { getPosts } from './shared/actions/posts';
+import { getPosts } from './shared/actions/actionCreators';
 import Posts from './components/Posts/Posts';
 import Header from './components/Header/Header';
-import useStyles from './styles';
-
+import useStyles from './appstyles';
 
 
 const App = () => {
@@ -17,12 +16,12 @@ const App = () => {
 
     useEffect(() => {
         dispatch(getPosts());
-    }, [selectedId, dispatch]);
+    }, [dispatch]);
 
     return (
-        <>
+        <div className={classes.body}>
             <Header selectedId={selectedId} setSelectedId={setSelectedId} />
-            <Container maxwidth="xl" style={{marginTop:'80px'}}>
+            <div className={classes.bodyContainer}>
                 <Grow in>
                     <Grid container justify="space-between" alignItems="stretch" spacing={1}>
                         <Grid item xs={12}>
@@ -30,8 +29,8 @@ const App = () => {
                         </Grid>
                     </Grid>
                 </Grow>
-            </Container>
-        </>
+            </div>
+        </div>
     );
 };
 

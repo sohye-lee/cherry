@@ -18,11 +18,13 @@ const Posts = ({ selectedId, setSelectedId }) => {
 
     const classes = useStyles();
 
-    const handleCloseForm = () => formOpen? setFormOpen(false) : setFormOpen(true);
+    const handleCloseForm = () => {
+        setFormOpen(false);
+    }
     
     return (
         
-            !posts.length ? <CircularProgress /> : (
+            !posts.length ? <CircularProgress className={classes.loading}/> : (
                 <>
                 <Grid className={classes.postsWrapper} container alignItems="stretch" spacing={1}>
                     {deployPosts}

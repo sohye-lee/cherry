@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost, updatePost } from '../../shared/actions/posts'
+import { createPost, updatePost } from '../../shared/actions/actionCreators'
 import useStyles from './styles';
 
 
@@ -24,29 +24,23 @@ const MakeForm = ({selectedId, setSelectedId, setFormOpen}) => {
         if (post) setPostData(post)
     }, [post])
     
+    const clear = () => {
+        setSelectedId(null);
+        setPostData({ creator: '', title: '', message: '', tags: [], selectedFile: '', location: ''});
+    }
+
     const handleSubmit = async (e) => {
         // e.preventDefault();
 
         if (selectedId) {
             dispatch(updatePost(selectedId, postData));
-            setFormOpen(false);
+            clear();
         } else {
             dispatch(createPost(postData));
-            setFormOpen(false);
+            clear();
         }
-        clear();
-    }
-
-    const clear = () => {
-        setSelectedId(null);
-        setPostData({ 
-            creator: '',
-            title: '',
-            message: '',
-            tags: [],
-            selectedFile: '',
-            location: ''
-        });
+        setFormOpen(false);
+        console.log(postData)
     }
 
     return (
@@ -99,7 +93,7 @@ const MakeForm = ({selectedId, setSelectedId, setFormOpen}) => {
                     fullWidth
                     value={postData.tags}
                     onChange={(e) => 
-                        setPostData({...postData, tags: e.target.value.includes(',')? e.target.value.split(',') : [e.target.value]})
+                        setPostData({...postData, tags: e.target.value.includes(',')? e.target.value.replace(' ','').toLowerCase().split(',') : [e.target.value]})
                     }
                 />
                 <div className={classes.fileUpload}>
@@ -117,7 +111,6 @@ const MakeForm = ({selectedId, setSelectedId, setFormOpen}) => {
                     size="large"
                     type="submit"
                     fullWidth
-                    onClick={handleSubmit}
                 >
                     {(selectedId) ? 'UPDATE' : 'CREATE'}
                 </Button>
