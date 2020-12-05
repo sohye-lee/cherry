@@ -1,40 +1,57 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { TextField, Button } from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../shared/actions/posts'
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../shared/actions/posts'
 import useStyles from './styles';
 
 
-const MakeForm = () => {
+const MakeForm = ({selectedId, setSelectedId, setFormOpen}) => {
     const [ postData, setPostData ] = useState({
         creator: '',
         title: '',
         message: '',
-        tags: '',
+        tags: [],
         selectedFile: '',
         location: ''
     });
+
+    const post = useSelector((state) => selectedId ? state.posts.find((p) => p._id === selectedId) : null);
     const classes = useStyles();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (post) setPostData(post)
+    }, [post])
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(createPost(postData));
-        console.log(postData);
+    const handleSubmit = async (e) => {
+        // e.preventDefault();
+
+        if (selectedId) {
+            dispatch(updatePost(selectedId, postData));
+            setFormOpen(false);
+        } else {
+            dispatch(createPost(postData));
+            setFormOpen(false);
+        }
+        clear();
     }
 
     const clear = () => {
-
+        setSelectedId(null);
+        setPostData({ 
+            creator: '',
+            title: '',
+            message: '',
+            tags: [],
+            selectedFile: '',
+            location: ''
+        });
     }
 
     return (
-        <Paper className={classes.formContainer}>
+        <div className={classes.formContainer}>
             <form autoComplete="off" noValidate className={classes.form} onSubmit={handleSubmit} >
-                <Typography variant="h6">
-                    Creating a Memory
-                </Typography>
                 <TextField 
                     className={classes.fileInput}
                     name="creator" 
@@ -66,34 +83,47 @@ const MakeForm = () => {
                 />
                 <TextField 
                     className={classes.fileInput}
+                    name="where" 
+                    variant="outlined" 
+                    label="Where" 
+                    fullWidth
+                    value={postData.location}
+                    onChange={(e) => setPostData({...postData, location: e.target.value})}
+                />
+                <TextField 
+                    className={classes.fileInput}
                     name="tags" 
                     variant="outlined" 
                     label="Tags" 
+                    placeholder="separate tags with ,"
                     fullWidth
                     value={postData.tags}
-                    onChange={(e) => setPostData({...postData, tags: e.target.value})}
+                    onChange={(e) => 
+                        setPostData({...postData, tags: e.target.value.includes(',')? e.target.value.split(',') : [e.target.value]})
+                    }
                 />
-                <div className={classes.fileInput}>
+                <div className={classes.fileUpload}>
                     <FileBase 
                         type="file"
                         multiple={false}
-                        onDone={({base64}) => setPostData({ ...postData, selectedFile: base64})}
+                        onDone={({base64}) => 
+                            setPostData({ ...postData, selectedFile: base64})
+                        }
                     />
                 </div>
                 <Button 
                     className={classes.buttonSubmit} 
                     variant="contained" 
-                    color="primary"
                     size="large"
                     type="submit"
                     fullWidth
+                    onClick={handleSubmit}
                 >
-                    CREATE
+                    {(selectedId) ? 'UPDATE' : 'CREATE'}
                 </Button>
                 <Button
                     className={classes.buttonClear} 
                     variant="contained" 
-                    color="secondary"
                     size="large"
                     onClick={clear}
                     fullWidth
@@ -101,8 +131,7 @@ const MakeForm = () => {
                     CLEAR
                 </Button>
             </form>
-        </Paper>
-      
+        </div>
     )
 }
 
