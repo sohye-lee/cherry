@@ -12,7 +12,7 @@ export default makeStyles(() => ({
         position: 'absolute',
     },
     bodyContainer: {
-        width: '90%',
+        width: '85%',
         margin: '80px auto',
     },
 }))

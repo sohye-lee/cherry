@@ -12,7 +12,8 @@ export default makeStyles(() => ({
         gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))',
         gridColumnGap: '3px',
         margin: '0 auto',
-        width: '100%',
+        maxWidth: '100%',
+        width: 'auto',
     },
     formWrapper: {
         position: 'fixed',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import Post from './Post/Post';
 import MakeForm from '../Form/Form';
@@ -7,9 +7,8 @@ import { Grid, CircularProgress, Fade, Dialog, DialogTitle, DialogContent, Dialo
 
 import useStyles from './styles.js';
 
-const Posts = ({ selectedId, setSelectedId }) => {
+const Posts = ({ selectedId, setSelectedId, posts }) => {
     const [ formOpen, setFormOpen ] = useState(false);
-    const posts = useSelector((state) => state.posts);
     const deployPosts = posts.map((post) => (
         <Grid key={post._id} item xs={12}>
             <Post post={post} setFormOpen={setFormOpen} setSelectedId={setSelectedId} />
@@ -26,7 +25,7 @@ const Posts = ({ selectedId, setSelectedId }) => {
         
             !posts.length ? <CircularProgress className={classes.loading}/> : (
                 <>
-                <Grid className={classes.postsWrapper} container alignItems="stretch" spacing={1}>
+                <Grid className={classes.postsWrapper} container spacing={1}>
                     {deployPosts}
                 </Grid>
             

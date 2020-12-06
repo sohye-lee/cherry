@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core';
 
 export default makeStyles(() => ({
     formContainer: {
-        // backgroundColor: 'var(--Smoke)',
         padding: '15px 0',
     },
     form: {

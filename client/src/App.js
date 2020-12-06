@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
@@ -10,7 +11,8 @@ import useStyles from './appstyles';
 
 const App = () => {
 
-    const [ selectedId, setSelectedId] = useState(null);
+    const [ selectedId, setSelectedId ] = useState(null);
+    const [ searchTerm, setSearchTerm ] = useState('');
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -18,14 +20,23 @@ const App = () => {
         dispatch(getPosts());
     }, [dispatch]);
 
+    let posts = '';
+    const allPosts =  useSelector((state) => state.posts);
+    if (searchTerm === '') {
+        posts = allPosts;
+    } else {
+        posts = allPosts.filter(post => post.message.toLowerCase().includes(searchTerm) || post.title.toLowerCase().includes(searchTerm) || post.tags.includes(searchTerm));
+    }
+
+
     return (
         <div className={classes.body}>
-            <Header selectedId={selectedId} setSelectedId={setSelectedId} />
+            <Header setSelectedId={setSelectedId} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <div className={classes.bodyContainer}>
                 <Grow in>
                     <Grid container justify="space-between" alignItems="stretch" spacing={1}>
                         <Grid item xs={12}>
-                            <Posts selectedId={selectedId} setSelectedId={setSelectedId} />
+                            <Posts selectedId={selectedId} setSelectedId={setSelectedId} posts={posts} />
                         </Grid>
                     </Grid>
                 </Grow>

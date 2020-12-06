@@ -30,17 +30,18 @@ const MakeForm = ({selectedId, setSelectedId, setFormOpen}) => {
     }
 
     const handleSubmit = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         if (selectedId) {
             dispatch(updatePost(selectedId, postData));
+            console.log(selectedId);
             clear();
         } else {
             dispatch(createPost(postData));
             clear();
         }
         setFormOpen(false);
-        console.log(postData)
+
     }
 
     return (
